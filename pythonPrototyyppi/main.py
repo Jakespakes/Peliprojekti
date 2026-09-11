@@ -8,6 +8,7 @@ def start():
         answer = input("Aloitetaanko? (Y/n) ")
 
         if answer == "y" or answer == "Y":
+            # Tähän saa laitettua buzzerin huutamaan startti soundin
             print("Aloitetaan!")
             x = False
         elif answer == "n" or answer == "N":
@@ -42,14 +43,16 @@ def game():
                 continue
 
             if guess == colors[f"num{i}"]:
+                # Tähän sais buzzerin huutamaan kun vastaus on oikein
                 print("OIKEIN")
                 score += 1
             else: 
+                # Tähän sais buzzerin huutamaan kun peli hävitään
                 print("VÄÄRIN")
                 play_again = False
                 print("Kokonaistulos: ", score)
 
         increment = max(0, increment - sub)
         
-#start()
+start()
 game()
