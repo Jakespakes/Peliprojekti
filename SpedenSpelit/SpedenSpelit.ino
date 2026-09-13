@@ -30,11 +30,11 @@ void loop()
   {
      // start the game if buttonNumber == 4
      if (buttonNumber == 4) {
-      startGame();
+      //startGame();
      }
      // check the game if 0<=buttonNumber<4
      if (0 <= buttonNumber < 4) {
-      checkGame();
+      //checkGame();
      }
   } 
 

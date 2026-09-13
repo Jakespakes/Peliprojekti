@@ -8,7 +8,9 @@
 
 // Intoduce TIMER1_COMPA_vect Interrupt SeRvice (ISR) function for timer.
 
-extern byte randomNumber;
+extern byte randomNumber = 0;
+unsigned int increment;
+unsigned int value = 62499;
 
 ISR(TIMER1_COMPA_vect) 
 {
@@ -17,10 +19,18 @@ ISR(TIMER1_COMPA_vect)
   Increase timer interrupt rate after 10 interrupts.
   */
   if (buttonWasPressed == true) {
-    randomNumber = random(0, 4);
-    return randomNumber;        // Palautetaan muttuja niin ledi funktio voi lukea sen
+    randomNumber = random(0, 4);        // Palautetaan muttuja niin ledi funktio voi lukea sen
+    increment++;
   }
 
+  /*
+  Kun interrupti on tapahtunut kymmenen kertaa aletaan nopeuttamaan timeria
+  Laskemalla prescalerin arvoa
+  */
+  if (increment == 10) {
+    value *= 0.9;
+    //initializeTimer(value);
+  }
 }
 
 /*
@@ -35,13 +45,11 @@ void initializeTimer(unsigned int ocr1a_value)
   TCCR1A = B00000000;                     // Set Timer/Counter1 to normal mode.
   TCNT1  = 0;                             // Set Timer/Counter1 to 0
 
-  OCR1A = ocr1a_value;
+  OCR1A = ocr1a_value;                    // Set prescaler as the wanted value
   TCCR1A = B01000100;                     // Set Timer/Counter1 to CTC mode. Set OC1A to toggle.
-  TCCR1B = B00001010;
-  TCCR1B |= (1 << WGM12);
-  TCCR1B = (1 << CS12); 
-  // Start Timer/Counter1 clock by setting the source to CPU source.
-  // Set CTC mode (WGM12 = 1), Set prescaler value to 256
+  TCCR1B = B00001010;                     // Start Timer/Counter1 clock by setting the source to CPU source. Set prescalar to 1/8 (2Mhz).
+  TCCR1B |= (1 << WGM12);                 // Start Timer/Counter1 clock by setting the source to CPU source.
+  TCCR1B = (1 << CS12);                   // Set CTC mode (WGM12 = 1), Set prescaler value to 256
 
   TIMSK1 |= (1 << OCIE1A);                // Enable Timer1 Output Compare Match A interrupt enable
   DDRB |= B00000010;                      //Set OCR1A as an Output.
@@ -75,7 +83,9 @@ void initializeGame(void) {
 void checkGame(byte lastButtonPress) {
   if (buttonWasPressed == true) {
     buttonNumber = lastButtonPress;
-    return increment++;
+    /*number++;
+    result++;
+    return number, result; */
   }
 }
 
