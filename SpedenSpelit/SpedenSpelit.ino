@@ -1,6 +1,6 @@
-// #include "display.h"
-// #include "buttons.h"
-// #include "leds.h"
+#include "display.h"
+#include "buttons.h"
+#include "leds.h"
 #include "SpedenSpelit.h"
 
 // Use these 2 volatile variables for communicating between
@@ -8,15 +8,20 @@
 volatile int buttonNumber = -1;           // for buttons interrupt handler
 volatile bool newTimerInterrupt = false;  // for timer interrupt handler
 
+unsigned int ocr1a_value = 62499;
 
 void setup()
 {
+  Serial.begin(9600);
   /*
     Initialize here all modules
   */
-  println("Ledit on alustettu");
-  println("Näyttö on alustettu");
-  initializeGame();
+
+  //initializeLeds();
+  //initializeButtons();
+  //initializeDisplay();
+  //initializeGame();
+  initializeTimer(ocr1a_value);
 }
 
 void loop()
@@ -31,46 +36,25 @@ void loop()
      if (0 <= buttonNumber < 4) {
       checkGame();
      }
-  }
+  } 
 
   if(newTimerInterrupt == true)
   {
+    buttonWasPressed = true;
      // new random number must be generated
      // and corresponding let must be activated
   }
 }
 
-void initializeTimer(void)
-{
-	// see requirements for the function from SpedenSpelit.h
-}
-
-ISR(TIMER1_COMPA_vect)
-{
-  /*
-  Communicate to loop() that it's time to make new random number.
-  Increase timer interrupt rate after 10 interrupts.
-  */
-  uint8_t randomNumber = random(1, 5);
-}
-
-
-void checkGame(byte nbrOfButtonPush)
-{
+//void initializeTimer(void);
 	// see requirements for the function from SpedenSpelit.h
 
-}
-
-
-void initializeGame()
-{
+//void checkGame(byte nbrOfButtonPush);
 	// see requirements for the function from SpedenSpelit.h
 
-}
+//void initializeGame();
+	// see requirements for the function from SpedenSpelit.h
 
-void startGame()
-{
+//void startGame();
    // see requirements for the function from SpedenSpelit.h
-
-}
 
