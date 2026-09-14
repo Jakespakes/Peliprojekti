@@ -25,11 +25,12 @@ ISR(TIMER1_COMPA_vect)
 
   /*
   Kun interrupti on tapahtunut kymmenen kertaa aletaan nopeuttamaan timeria
-  Laskemalla prescalerin arvoa
+  laskemalla keskeytyslipun arvoa
   */
   if (increment == 10) {
     value *= 0.9;
-    //initializeTimer(value);
+    OCR1A = value;
+    increment = 0;
   }
 }
 
@@ -38,14 +39,14 @@ ISR(TIMER1_COMPA_vect)
   give interrupts at rate 1Hz
 */
 
-void initializeTimer(unsigned int ocr1a_value)
+void initializeTimer()
 {
   cli();                                  // Disable interrupts
   TCCR1B = B00000000;                     // Stop Timer/Counter1 clock by setting the clock source to none.
   TCCR1A = B00000000;                     // Set Timer/Counter1 to normal mode.
   TCNT1  = 0;                             // Set Timer/Counter1 to 0
 
-  OCR1A = ocr1a_value;                    // Set prescaler as the wanted value
+  OCR1A = 62499;                    // Set prescaler as the wanted value
   TCCR1A = B01000100;                     // Set Timer/Counter1 to CTC mode. Set OC1A to toggle.
   TCCR1B = B00001010;                     // Start Timer/Counter1 clock by setting the source to CPU source. Set prescalar to 1/8 (2Mhz).
   TCCR1B |= (1 << WGM12);                 // Start Timer/Counter1 clock by setting the source to CPU source.
@@ -62,9 +63,8 @@ void initializeTimer(unsigned int ocr1a_value)
   
 */
 void initializeGame(void) {
-  uint8_t score = 0;
-  uint8_t increment = 0;
-  uint8_t button_press = false;
+  randomNumber;
+  unsigned int buttonNumber;
 }
 
 /*
@@ -93,7 +93,8 @@ void checkGame(byte lastButtonPress) {
 /*
   startTheGame() subroutine calls InitializeGame()
   function and enables Timer1 interrupts to start
-  the Game.
+  the Game
+  .
 */
 void startTheGame(void) 
 {

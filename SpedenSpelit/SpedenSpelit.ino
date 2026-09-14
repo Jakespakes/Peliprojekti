@@ -8,8 +8,6 @@
 volatile int buttonNumber = -1;           // for buttons interrupt handler
 volatile bool newTimerInterrupt = false;  // for timer interrupt handler
 
-unsigned int ocr1a_value = 62499;
-
 void setup()
 {
   Serial.begin(9600);
@@ -18,10 +16,10 @@ void setup()
   */
 
   //initializeLeds();
-  //initializeButtons();
+  //initButtonsAndButtonInterrupts();
   //initializeDisplay();
   //initializeGame();
-  initializeTimer(ocr1a_value);
+  initializeTimer();
 }
 
 void loop()
@@ -41,20 +39,6 @@ void loop()
   if(newTimerInterrupt == true)
   {
     buttonWasPressed = true;
-     // new random number must be generated
-     // and corresponding let must be activated
+     // Ilmoitetaan timerille, että uusi numero pitää generoida.
   }
 }
-
-//void initializeTimer(void);
-	// see requirements for the function from SpedenSpelit.h
-
-//void checkGame(byte nbrOfButtonPush);
-	// see requirements for the function from SpedenSpelit.h
-
-//void initializeGame();
-	// see requirements for the function from SpedenSpelit.h
-
-//void startGame();
-   // see requirements for the function from SpedenSpelit.h
-

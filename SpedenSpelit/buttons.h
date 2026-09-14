@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "sounds.h"
 
 
 extern volatile bool buttonWasPressed;

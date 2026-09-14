@@ -1,13 +1,11 @@
 #include "buttons.h"
 
 void testButtons()  {
-  int command = Serial.parseInt();
-  if (command == 1) {
-    int nappi = pressedButton();
-    Serial.print("NAPPI");
-    Serial.print(nappi);
-    Serial.println("painettu");
-    command = 0;
+if (buttonWasPressed == true) {
+  int nappi = pressedButton();
+  buttonSound(nappi);
+  Serial.print(nappi);
+  buttonWasPressed = false;
   }
 }
 
@@ -23,13 +21,15 @@ void initButtonsAndButtonInterrupts() {
   }
 }
 
-int pressedButton() {          
+
+int pressedButton() {   // <-- Turha?     
   noInterrupts();
   int button = buttonNumber; 
   buttonNumber = -1;
   interrupts();
   return button;
 }
+
 
 volatile bool buttonWasPressed = false;
 volatile unsigned long lastDebounceTime = 0;
@@ -39,9 +39,9 @@ ISR(PCINT2_vect) {
   uint8_t pressed = ~PIND;    
   unsigned long now = millis();
   if (now - lastDebounceTime > debounceDelay) {
+    lastDebounceTime = now;
     for (int i = firstPin;i<=lastPin;i++)  {
       if (pressed & ( 1 << i)) {
-        lastDebounceTime = now;
         buttonNumber = i;
         buttonWasPressed = true;
         break;
