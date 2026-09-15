@@ -5,11 +5,12 @@
 #include <avr/interrupt.h>
 #include "sounds.h"
 
-
+extern volatile bool gameStart;
 extern volatile bool buttonWasPressed;
 extern volatile int buttonNumber;
 const byte firstPin = 2; // First PinChangeInterrupt on D-bus
 const byte lastPin =  6; // Last PinChangeInterrupt on D-bus  
+const byte startPin = 6;  
 
 /* 
   initButtonsAndButtonInterrupts subroutine is called from Setup() function
@@ -25,5 +26,5 @@ int pressedButton();
 void testButtons();
 
 // Intoduce PCINT2_vect Interrupt SeRvice (ISR) function for Pin Change Interrupt.
-ISR(PCINT2_vect); 
+ISR(PCINT2_vect);
 #endif

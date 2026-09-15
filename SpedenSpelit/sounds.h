@@ -3,7 +3,7 @@
 #include <arduino.h>
 
 
-void initializeSound();
+void initSound();
 void buttonSound(int x);
 void successSound();
 void failureSound();

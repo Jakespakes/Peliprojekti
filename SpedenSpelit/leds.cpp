@@ -5,8 +5,8 @@ void initializeLeds() {
   for (int i = 2;i<=5;i++) {
     pinMode(A0 + i, OUTPUT);
   }
+  clearAllLeds();
 }
-
 
 void setLed(byte ledNumber) {
   clearAllLeds();
@@ -19,11 +19,9 @@ static void setLed2(byte ledNumber) {
   digitalWrite(pin, HIGH);
 }
 
-
-
 void clearAllLeds() {
-for (int i = 0;i<=3;i++)  {
-  int pin = A0 + i + 2;
-  digitalWrite(pin, LOW);
+  for (int i = 0;i<=3;i++) {
+    int pin = A0 + i + 2;
+    digitalWrite(pin, LOW);
   }
 }

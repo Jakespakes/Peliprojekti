@@ -2,11 +2,13 @@
 #include "buttons.h"
 #include "leds.h"
 #include "SpedenSpelit.h"
+#include "sounds.h"
 
 // Use these 2 volatile variables for communicating between
 // loop() function and interrupt handlers
 volatile int buttonNumber = -1;           // for buttons interrupt handler
 volatile bool newTimerInterrupt = false;  // for timer interrupt handler
+extern bool gameIsOn = false;
 
 void setup()
 {
@@ -15,30 +17,30 @@ void setup()
     Initialize here all modules
   */
 
-  //initializeLeds();
-  //initButtonsAndButtonInterrupts();
+  initializeLeds();
+  initButtonsAndButtonInterrupts();
   //initializeDisplay();
-  //initializeGame();
+  //initSound();
   initializeTimer();
+  sei();
 }
 
 void loop()
 {
-  if(buttonNumber>=0)
-  {
-     // start the game if buttonNumber == 4
-     if (buttonNumber == 4) {
-      //startGame();
-     }
-     // check the game if 0<=buttonNumber<4
-     if (0 <= buttonNumber < 4) {
-      //checkGame();
-     }
-  } 
+  if (gameStart == true) {
+    startTheGame();
+    gameStart = false;
+    gameIsOn = true;
+  }
 
-  if(newTimerInterrupt == true)
+  /*while(gameIsOn == true) { // Pitää tehdä while looppi, että saadaan pyöritettyä musiikkia pelin aikana
+    
+    setLed();
+  }*/
+
+  /*if(newTimerInterrupt == true)
   {
     buttonWasPressed = true;
      // Ilmoitetaan timerille, että uusi numero pitää generoida.
-  }
+  }*/
 }

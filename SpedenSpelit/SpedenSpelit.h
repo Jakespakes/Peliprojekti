@@ -9,8 +9,9 @@
 // Intoduce TIMER1_COMPA_vect Interrupt SeRvice (ISR) function for timer.
 
 extern byte randomNumber = 0;
-unsigned int increment;
+unsigned int increment = 0;
 unsigned int value = 62499;
+unsigned int timer = 0;
 
 ISR(TIMER1_COMPA_vect) 
 {
@@ -18,19 +19,23 @@ ISR(TIMER1_COMPA_vect)
   Communicate to loop() that it's time to make new random number.
   Increase timer interrupt rate after 10 interrupts.
   */
-  if (buttonWasPressed == true) {
-    randomNumber = random(0, 4);        // Palautetaan muttuja niin ledi funktio voi lukea sen
-    increment++;
-  }
 
-  /*
-  Kun interrupti on tapahtunut kymmenen kertaa aletaan nopeuttamaan timeria
-  laskemalla keskeytyslipun arvoa
-  */
-  if (increment == 10) {
-    value *= 0.9;
-    OCR1A = value;
-    increment = 0;
+  if (gameIsOn == true) { // Pitää selvittää mikä on vikana
+
+    randomNumber = random(0, 4);
+    Serial.println(randomNumber);
+
+    increment++;
+
+    /*
+      Kun interrupti on tapahtunut kymmenen kertaa aletaan nopeuttamaan timeria
+      laskemalla keskeytyslipun arvoa
+    */
+    if (increment == 10) {
+      value *= 0.9;
+      OCR1A = value;
+      increment = 0;
+    }
   }
 }
 
@@ -46,13 +51,11 @@ void initializeTimer()
   TCCR1A = B00000000;                     // Set Timer/Counter1 to normal mode.
   TCNT1  = 0;                             // Set Timer/Counter1 to 0
 
-  OCR1A = 62499;                    // Set prescaler as the wanted value
+  OCR1A = 62499;                          // Set prescaler as the wanted value
   TCCR1A = B01000100;                     // Set Timer/Counter1 to CTC mode. Set OC1A to toggle.
   TCCR1B = B00001010;                     // Start Timer/Counter1 clock by setting the source to CPU source. Set prescalar to 1/8 (2Mhz).
   TCCR1B |= (1 << WGM12);                 // Start Timer/Counter1 clock by setting the source to CPU source.
   TCCR1B = (1 << CS12);                   // Set CTC mode (WGM12 = 1), Set prescaler value to 256
-
-  TIMSK1 |= (1 << OCIE1A);                // Enable Timer1 Output Compare Match A interrupt enable
   DDRB |= B00000010;                      //Set OCR1A as an Output.
 }
 
@@ -63,8 +66,7 @@ void initializeTimer()
   
 */
 void initializeGame(void) {
-  randomNumber;
-  unsigned int buttonNumber;
+  int random;
 }
 
 /*
@@ -99,7 +101,7 @@ void checkGame(byte lastButtonPress) {
 void startTheGame(void) 
 {
   initializeGame();
-  sei();              // Enable interrupts
+  TIMSK1 |= (1 << OCIE1A);  // Enable Timer1 Output Compare Match A interrupt enable
 }
 
 #endif
