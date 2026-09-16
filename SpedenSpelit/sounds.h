@@ -5,7 +5,7 @@
 
 void initSound();
 void buttonSound(int x);
-void successSound();
+void startSound();
 void failureSound();
 void melody();
 

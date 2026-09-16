@@ -11,21 +11,17 @@ static const int failureNotes[3] = {440, 330, 220};
 
 ezBuzzer buzzer(buzzerPin, BUZZER_TYPE_PASSIVE, HIGH);
 
+// Melodia on mitä toistetaan pelinä pelatessa kunnes peli päättyy
 static const int song[] = {
   NOTE_C4, NOTE_F4, NOTE_DS4, NOTE_GS4,
   NOTE_G4, NOTE_C4, NOTE_CS4, NOTE_C4,
 };
 
-// Melodia on mitä toistetaan pelinä pelatessa kunnes peli päättyy
-
+// Nuottien pituudet, että melodia kuulostaa musiikilta
 const int noteDurations[] = {
   2, 4, 4, 3,
   2, 6, 4, 3,
 };
-// Nuottien pituudet, että melodia kuulostaa musiikilta
-
-// Melodian pituus määritellään melodian koko jaettuna melodian ekalla nuotilla
-// Tämä tehdään jotta voidaan käydä koko melodia läpi yksinkertaisella loopilla
 
 void initSound() {
   pinMode(buzzerPin, OUTPUT);
@@ -42,7 +38,7 @@ void buttonSound(int x)  {
   noTone(buzzerPin);
 }
 
-void successSound() {
+void startSound() {
   for (int i = 0; i < 3; i++) {
     tone(buzzerPin, successNotes[i], 120);
     delay(140);

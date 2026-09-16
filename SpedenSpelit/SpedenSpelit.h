@@ -122,15 +122,14 @@ bool checkGame(byte lastButtonPress) {
 
 void startTheGame(void) {
   TIMSK1 |= (1 << OCIE1A);  // Enable Timer1 Output Compare Match A interrupt enable
-  successSound();
+  PCMSK2 |= (0 << 6); // Otetaan pinni 6 eli aloitusnappi pois käytöstä pelin ajaksi
+  startSound();
 }
 
-/*
-  Helppo tapa aloittaa peli uudestaan kun se hävitään.
-*/
-
+// Helppo tapa aloittaa peli uudestaan kun se hävitään.
 void resetGame() {
-  asm volatile ("jmp 0");
+  asm volatile ("jmp 0"); // Tämä pätkä hyppää suoraan koodin alkuun. Vähän niinkuin C:n return 0;
+  PCMSK2 |= (1 << 6); // Laitetaan pinni 6 käyttöön
 }
 
 #endif
