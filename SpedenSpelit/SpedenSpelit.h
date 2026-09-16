@@ -2,16 +2,18 @@
 #define SPEDENSPELIT_H
 #include "buttons.h"
 #include "display.h"
+#include "sounds.h"
 #include <arduino.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-// Intoduce TIMER1_COMPA_vect Interrupt SeRvice (ISR) function for timer.
-
-extern byte randomNumber = 0;
+byte randomNumber = 0;
 unsigned int increment = 0;
 unsigned int value = 62499;
-unsigned int timer = 0;
+extern volatile bool newTimerInterrupt;
+volatile bool newNumberReady = false;
+
+// Introduce TIMER1_COMPA_vect Interrupt SeRvice (ISR) function for timer.
 
 ISR(TIMER1_COMPA_vect) 
 {
@@ -20,10 +22,10 @@ ISR(TIMER1_COMPA_vect)
   Increase timer interrupt rate after 10 interrupts.
   */
 
-  if (gameIsOn == true) { // Pitää selvittää mikä on vikana
-
-    randomNumber = random(0, 4);
-    Serial.println(randomNumber);
+  if (newTimerInterrupt) {
+    // Tehdään timerissa satunnainen luku 0-3 välillä, joka sitten annetaan ledille
+    randomNumber = random(0, 4); // Tämä ei ole täysin satunnainen tapa joka kerta eka luku on 0
+    newNumberReady = true;
 
     increment++;
 
@@ -31,11 +33,14 @@ ISR(TIMER1_COMPA_vect)
       Kun interrupti on tapahtunut kymmenen kertaa aletaan nopeuttamaan timeria
       laskemalla keskeytyslipun arvoa
     */
+
     if (increment == 10) {
       value *= 0.9;
       OCR1A = value;
+      TCNT1 = 0;
       increment = 0;
     }
+    newTimerInterrupt = false;
   }
 }
 
@@ -63,11 +68,13 @@ void initializeTimer()
   initializeGame() subroutine is used to initialize all variables
   needed to store random numbers and player button push data.
   This function is called from startTheGame() function.
-  
 */
-void initializeGame(void) {
-  int random;
+
+/*
+void initializeGame() {
+                                MITÄ TÄLLÄ TEHDÄÄN, KOSKA .ino TIEDOSTOSSA EI OLE OIKEASTAAN MITÄÄN MITÄ SÄILYTTÄÄ KUN KAIKKI ON TÄSSÄ TIEDOSTOSSA
 }
+*/
 
 /*
   checkGame() subroutine is used to check the status
@@ -79,29 +86,51 @@ void initializeGame(void) {
   
   Parameters
   byte lastButtonPress of the player 0 or 1 or 2 or 3
-  
 */
 
-void checkGame(byte lastButtonPress) {
-  if (buttonWasPressed == true) {
-    buttonNumber = lastButtonPress;
-    /*number++;
-    result++;
-    return number, result; */
+bool checkGame(byte lastButtonPress) {
+  buttonNumber = lastButtonPress;
+  lastButtonPress -= 2; 
+  
+  // Luetut napit ovat 2-5 niin vähennetään 2 jotta se olisi 0-3
+  // Tällä hetkellä toivotaan, että aloitus nappia ei paineta niin sekin otetaan huomioon vielä nappien lukemisessa
+
+  /*
+  Serial.print("Viimeksi painettu nappi: ");
+  Serial.println(lastButtonPress);
+
+      // NÄMÄ OVAT TÄSSÄ VAIN DEBUGGAUSTA VARTEN KOSKA EN OSAA TEHDÄ OIKEAA TESTAUSJÄRJESTELMÄÄ
+
+  Serial.print("Mitä pitäisi painaa: ");
+  Serial.println(randomNumber);
+  */
+
+  if (lastButtonPress == randomNumber) {
+    return true;
+  }
+
+  else {
+    return false;
   }
 }
-
 
 /*
   startTheGame() subroutine calls InitializeGame()
   function and enables Timer1 interrupts to start
   the Game
-  .
 */
-void startTheGame(void) 
-{
-  initializeGame();
+
+void startTheGame(void) {
   TIMSK1 |= (1 << OCIE1A);  // Enable Timer1 Output Compare Match A interrupt enable
+  successSound();
+}
+
+/*
+  Helppo tapa aloittaa peli uudestaan kun se hävitään.
+*/
+
+void resetGame() {
+  asm volatile ("jmp 0");
 }
 
 #endif

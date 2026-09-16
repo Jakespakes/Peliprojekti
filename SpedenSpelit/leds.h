@@ -20,6 +20,7 @@ void initializeLeds();
   byte ledNumber is 0,1,2 or 3
 */
 void setLed(byte ledNumber);
+void setLed2(byte ledNumber);
 
 /*
   clearAllLeds(void) subroutine clears all leds

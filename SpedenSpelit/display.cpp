@@ -1,25 +1,28 @@
 #include "display.h"
 #include <Arduino.h>
+
 //Annetaan pinneille ohjeiden mukaiset arvot
-  const int resetPin = 12;
-  const int shiftClockPin = 11;
-  const int latchClockPin = 10;
-  const int outEnablePin = 9;
-  const int serialInputPin = 8;
+
+const int resetPin = 12;
+const int shiftClockPin = 11;
+const int latchClockPin = 10;
+const int outEnablePin = 9;
+const int serialInputPin = 8;
 
 // 7-segmenttinäytön mukaiset numeroita vastaavat bittiarvot
-  const uint8_t numberBits[] = {
-    0b00111111, // Numero 0
-    0b00000110, // Numero 1
-    0b01011011, // Numero 2
-    0b01001111, // Numero 3
-    0b01100110, // Numero 4
-    0b01101101, // Numero 5
-    0b01111101, // Numero 6
-    0b00000111, // Numero 7
-    0b01111111, // Numero 8
-    0b01101111, // Numero 9
-  };
+
+const uint8_t numberBits[] = {
+  0b00111111, // Numero 0
+  0b00000110, // Numero 1
+  0b01011011, // Numero 2
+  0b01001111, // Numero 3
+  0b01100110, // Numero 4
+  0b01101101, // Numero 5
+  0b01111101, // Numero 6
+  0b00000111, // Numero 7
+  0b01111111, // Numero 8
+  0b01101111, // Numero 9
+};
 
 //Valmistellaan pinnit käyttöä varten
 void initializeDisplay(void)

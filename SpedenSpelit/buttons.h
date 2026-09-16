@@ -19,11 +19,12 @@ const byte startPin = 6;
   2) Initializes 1 button pin for starting the game = Aruino pin 6
   3) Enables PinChangeInterrupt on D-bus in a way that interrupt
      is generated whenever some of pins 2,3,4,5,6 is connected to LOW state
-
 */
+
 void initButtonsAndButtonInterrupts(void);
 int pressedButton();
 void testButtons();
+bool checkGameStart();
 
 // Intoduce PCINT2_vect Interrupt SeRvice (ISR) function for Pin Change Interrupt.
 ISR(PCINT2_vect);
