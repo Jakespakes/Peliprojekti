@@ -72,7 +72,7 @@ void initializeTimer()
 
 /*
 void initializeGame() {
-                                MITÄ TÄLLÄ TEHDÄÄN, KOSKA .ino TIEDOSTOSSA EI OLE OIKEASTAAN MITÄÄN MITÄ SÄILYTTÄÄ KUN KAIKKI ON TÄSSÄ TIEDOSTOSSA
+  Mitä tällä tehdään ??
 }
 */
 
@@ -89,11 +89,10 @@ void initializeGame() {
 */
 
 bool checkGame(byte lastButtonPress) {
-  buttonNumber = lastButtonPress;
+  buttonNumber = lastButtonPress; // buttonNumber määritellään nappikeskeytyksessä
   lastButtonPress -= 2; 
   
   // Luetut napit ovat 2-5 niin vähennetään 2 jotta se olisi 0-3
-  // Tällä hetkellä toivotaan, että aloitus nappia ei paineta niin sekin otetaan huomioon vielä nappien lukemisessa
 
   /*
   Serial.print("Viimeksi painettu nappi: ");
@@ -107,8 +106,7 @@ bool checkGame(byte lastButtonPress) {
 
   if (lastButtonPress == randomNumber) {
     return true;
-  }
-
+  } 
   else {
     return false;
   }
@@ -124,6 +122,7 @@ void startTheGame(void) {
   TIMSK1 |= (1 << OCIE1A);  // Enable Timer1 Output Compare Match A interrupt enable
   PCMSK2 |= (0 << 6); // Otetaan pinni 6 eli aloitusnappi pois käytöstä pelin ajaksi
   startSound();
+  newTimerInterrupt = true;
 }
 
 // Helppo tapa aloittaa peli uudestaan kun se hävitään.
