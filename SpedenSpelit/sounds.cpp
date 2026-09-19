@@ -4,7 +4,7 @@
 
 const int buzzerPin = 7;
 
-extern bool playMelody;
+extern bool gameIsOn;
 static const int buttonNotes[4] = {262, 294, 330, 349};
 static const int successNotes[3] = {880, 1175, 1568};
 static const int failureNotes[3] = {440, 330, 220};
@@ -59,7 +59,7 @@ void melody() {
 
   buzzer.loop();
 
-  if (playMelody) {
+  if (gameIsOn) {
     if (buzzer.getState() == BUZZER_IDLE) {
       buzzer.playMelody(song, noteDurations, noteLength);
     }
