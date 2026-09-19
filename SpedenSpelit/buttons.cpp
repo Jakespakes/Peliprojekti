@@ -3,7 +3,7 @@
 
 extern volatile bool gameStart = false;
 
-void testButtons()  {
+void testButtons()  { // Nappien ja painallus äänien testausta varten
 if (buttonWasPressed == true) {
   int nappi = pressedButton();
   buttonSound(nappi);
@@ -13,7 +13,7 @@ if (buttonWasPressed == true) {
 }
 
 void initButtonsAndButtonInterrupts() {
-  for (int i = 2;i<=6;i++) { 
+  for (int i = 2;i<=6;i++) {  // Laitetaan pinnit 2-6 pullup tilaan
     pinMode(i, INPUT_PULLUP);
   }
 
@@ -38,20 +38,23 @@ volatile unsigned long lastDebounceTime = 0;
 const unsigned long debounceDelay = 100;   
 
 ISR(PCINT2_vect) {        
-  uint8_t pressed = ~PIND;    
-  unsigned long now = millis();
-  if (now - lastDebounceTime > debounceDelay) {
-    lastDebounceTime = now;
-    for (int i = 2;i<=6;i++)  {
-      if (pressed & ( 1 << i)) {
-        buttonNumber = i;
+  uint8_t pressed = ~PIND;                      // Otetaan D portin pinnien tilat talteen
+  unsigned long now = millis();                 // Debounce
 
-        if (buttonNumber == 6) {
-          gameStart = true;
+  if (now - lastDebounceTime > debounceDelay) { // Tarkistetaan onko edellisestä painalluksesta kulunut riittävästi aikaa
+    lastDebounceTime = now;                     // Päivitetään debounce aika jos on
+
+    for (int i = 2;i<=6;i++)  {                 // Käydään talteen otetut pinnien tilat läpi ja katsotaan mitä nappi painettiin
+      if (pressed & ( 1 << i)) {
+        buttonNumber = i;                       // buttonNumber = painettu nappi
+
+        if (buttonNumber == 6) {                // Tarkistetaan oliko aloitusnappi pelin aloitusta varten
+          gameStart = true;     
           buttonNumber = 0;
         }
         else 
-          buttonWasPressed = true;
+          buttonWasPressed = true;  // Yleinen "nappia painettiin" flagi
+
         break;
       }
     }
