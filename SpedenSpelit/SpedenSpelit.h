@@ -8,7 +8,7 @@
 #include <avr/interrupt.h>
 
 byte randomNumber = 0;
-unsigned int increment = 0;
+unsigned int index = 0;
 unsigned int value = 62499;
 extern volatile bool newTimerInterrupt;
 volatile bool newNumberReady = false;
@@ -27,18 +27,18 @@ ISR(TIMER1_COMPA_vect)
     randomNumber = random(0, 4); // Tämä ei ole täysin satunnainen tapa joka kerta eka luku on 0
     newNumberReady = true;
 
-    increment++;
+    index++;
 
     /*
       Kun interrupti on tapahtunut kymmenen kertaa aletaan nopeuttamaan timeria
       laskemalla keskeytyslipun arvoa
     */
 
-    if (increment == 10) {
+    if (index == 10) {
       value *= 0.9;
       OCR1A = value;
       TCNT1 = 0;
-      increment = 0;
+      index = 0;
     }
     newTimerInterrupt = false;
   }
@@ -61,7 +61,7 @@ void initializeTimer()
   TCCR1B = B00001010;                     // Start Timer/Counter1 clock by setting the source to CPU source. Set prescalar to 1/8 (2Mhz).
   TCCR1B |= (1 << WGM12);                 // Start Timer/Counter1 clock by setting the source to CPU source.
   TCCR1B = (1 << CS12);                   // Set CTC mode (WGM12 = 1), Set prescaler value to 256
-  DDRB |= B00000010;                      //Set OCR1A as an Output.
+  DDRB |= B00000010;                      // Set OCR1A as an Output.
 }
 
 /*
@@ -81,7 +81,7 @@ void initializeGame() {
   of the Game after each player button press.
   
   If the latest player button press is wrong, the game stops
-  and if the latest press was right, game display is incremented
+  and if the latest press was right, game display is indecesed
   by 1.
   
   Parameters
@@ -128,6 +128,7 @@ void startTheGame(void) {
 // Helppo tapa aloittaa peli uudestaan kun se hävitään.
 void resetGame() {
   asm volatile ("jmp 0"); // Tämä pätkä hyppää suoraan koodin alkuun. Vähän niinkuin C:n return 0;
+  //gameStart = false;
   PCMSK2 |= (1 << 6); // Laitetaan pinni 6 käyttöön
 }
 

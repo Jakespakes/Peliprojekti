@@ -38,22 +38,25 @@ volatile unsigned long lastDebounceTime = 0;
 const unsigned long debounceDelay = 100;   
 
 ISR(PCINT2_vect) {        
-  uint8_t pressed = ~PIND;                      // Otetaan D portin pinnien tilat talteen
-  unsigned long now = millis();                 // Debounce
+  uint8_t pressed = ~PIND; // Otetaan D portin pinnien tilat talteen
+  unsigned long now = millis(); // Debounce
 
   if (now - lastDebounceTime > debounceDelay) { // Tarkistetaan onko edellisestä painalluksesta kulunut riittävästi aikaa
-    lastDebounceTime = now;                     // Päivitetään debounce aika jos on
+  //lastDebounceTime = now; // Päivitetään debounce aika jos on
 
-    for (int i = 2;i<=6;i++)  {                 // Käydään talteen otetut pinnien tilat läpi ja katsotaan mitä nappi painettiin
+    for (int i = 2;i<=6;i++)  { // Käydään talteen otetut pinnien tilat läpi ja katsotaan mitä nappi painettiin
+
       if (pressed & ( 1 << i)) {
-        buttonNumber = i;                       // buttonNumber = painettu nappi
+        lastDebounceTime = now; // Päivitetään debounce aika jos on
+        buttonNumber = i; // buttonNumber = painettu nappi
 
-        if (buttonNumber == 6) {                // Tarkistetaan oliko aloitusnappi pelin aloitusta varten
+        if (buttonNumber == 6) { // Tarkistetaan oliko aloitusnappi pelin aloitusta varten
           gameStart = true;     
           buttonNumber = 0;
         }
+    
         else 
-          buttonWasPressed = true;  // Yleinen "nappia painettiin" flagi
+          buttonWasPressed = true; // Yleinen "nappia painettiin" flagi
 
         break;
       }

@@ -50,15 +50,14 @@ void loop()
     if(check) {
       buttonSound(buttonNumber);
       newTimerInterrupt = true;
-      Serial.println(score);
       score += 1;
     }
+    
     else {
       failureSound();
       resetGame();
       gameIsOn = false;
       showResult(score);
-      Serial.println(score);
     }
 
     buttonWasPressed = false;
