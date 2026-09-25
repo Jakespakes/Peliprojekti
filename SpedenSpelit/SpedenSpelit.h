@@ -52,16 +52,12 @@ ISR(TIMER1_COMPA_vect)
 void initializeTimer()
 {
   cli();                                  // Disable interrupts
-  TCCR1B = B00000000;                     // Stop Timer/Counter1 clock by setting the clock source to none.
-  TCCR1A = B00000000;                     // Set Timer/Counter1 to normal mode.
+  TCCR1B = 0;                             // Stop Timer/Counter1 clock by setting the clock source to none
+  TCCR1A = 0;                             // Set Timer/Counter1 to normal mode
   TCNT1  = 0;                             // Set Timer/Counter1 to 0
 
   OCR1A = 62499;                          // Set prescaler as the wanted value
-  TCCR1A = B01000100;                     // Set Timer/Counter1 to CTC mode. Set OC1A to toggle.
-  TCCR1B = B00001010;                     // Start Timer/Counter1 clock by setting the source to CPU source. Set prescalar to 1/8 (2Mhz).
-  TCCR1B |= (1 << WGM12);                 // Start Timer/Counter1 clock by setting the source to CPU source.
-  TCCR1B = (1 << CS12);                   // Set CTC mode (WGM12 = 1), Set prescaler value to 256
-  DDRB |= B00000010;                      // Set OCR1A as an Output.
+  TCCR1B = (1 << WGM12) | (1 << CS12);    // Set bits WGM12 & CS12 to 1 so prescaler value is at 256
 }
 
 /*

@@ -26,6 +26,6 @@ int pressedButton();
 void testButtons();
 bool checkGameStart();
 
-// Intoduce PCINT2_vect Interrupt SeRvice (ISR) function for Pin Change Interrupt.
+// Introduce PCINT2_vect Interrupt SeRvice (ISR) function for Pin Change Interrupt.
 ISR(PCINT2_vect);
 #endif

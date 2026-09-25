@@ -42,7 +42,6 @@ ISR(PCINT2_vect) {
   unsigned long now = millis(); // Debounce
 
   if (now - lastDebounceTime > debounceDelay) { // Tarkistetaan onko edellisestä painalluksesta kulunut riittävästi aikaa
-  //lastDebounceTime = now; // Päivitetään debounce aika jos on
 
     for (int i = 2;i<=6;i++)  { // Käydään talteen otetut pinnien tilat läpi ja katsotaan mitä nappi painettiin
 
@@ -51,7 +50,7 @@ ISR(PCINT2_vect) {
         buttonNumber = i; // buttonNumber = painettu nappi
 
         if (buttonNumber == 6) { // Tarkistetaan oliko aloitusnappi pelin aloitusta varten
-          gameStart = true;     
+          gameStart = true;
           buttonNumber = 0;
         }
     

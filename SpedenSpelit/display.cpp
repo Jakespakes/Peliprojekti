@@ -62,8 +62,8 @@ void writeByte(uint8_t bits,bool last)
 
 void writeHighAndLowNumber(uint8_t tens,uint8_t ones)
 {
-  writeByte(numberBits[ones], false);
-  writeByte(numberBits[tens], true); 
+  writeByte(numberBits[tens], false);
+  writeByte(numberBits[ones], true); 
 }
 
 void showResult(byte number)
