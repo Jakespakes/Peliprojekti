@@ -1,7 +1,7 @@
 #include "buttons.h"
 #include "sounds.h"
 
-extern volatile bool gameStart = false;
+volatile bool gameStart = false;
 
 void testButtons()  { // Nappien ja painallus äänien testausta varten
 if (buttonWasPressed == true) {
@@ -33,16 +33,16 @@ int pressedButton() {         // Tällä voi tsekata ja nollata viimeksi painetu
   return button;              // palautetaan napin arvo
 }
 
-volatile bool buttonWasPressed = false;
-volatile unsigned long lastDebounceTime = 0;
-const unsigned long debounceDelay = 100;   
+
+bool buttonWasPressed = false;
+unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 1000;   
 
 ISR(PCINT2_vect) {        
   uint8_t pressed = ~PIND; // Otetaan D portin pinnien tilat talteen
   unsigned long now = millis(); // Debounce
 
   if (now - lastDebounceTime > debounceDelay) { // Tarkistetaan onko edellisestä painalluksesta kulunut riittävästi aikaa
-
     for (int i = 2;i<=6;i++)  { // Käydään talteen otetut pinnien tilat läpi ja katsotaan mitä nappi painettiin
 
       if (pressed & ( 1 << i)) {

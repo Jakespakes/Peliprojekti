@@ -6,7 +6,7 @@
 #include "sounds.h"
 
 extern volatile bool gameStart;
-extern volatile bool buttonWasPressed;
+extern bool buttonWasPressed;
 extern volatile int buttonNumber;
 const byte firstPin = 2; // First PinChangeInterrupt on D-bus
 const byte lastPin =  6; // Last PinChangeInterrupt on D-bus  

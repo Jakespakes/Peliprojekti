@@ -61,18 +61,6 @@ void initializeTimer()
 }
 
 /*
-  initializeGame() subroutine is used to initialize all variables
-  needed to store random numbers and player button push data.
-  This function is called from startTheGame() function.
-*/
-
-/*
-void initializeGame() {
-  Mitä tällä tehdään ??
-}
-*/
-
-/*
   checkGame() subroutine is used to check the status
   of the Game after each player button press.
   

@@ -8,7 +8,7 @@ volatile int buttonNumber = -1;           // for buttons interrupt handler
 volatile bool newTimerInterrupt = false;  // for timer interrupt handler
 volatile bool gameIsOn = false;           // for indicating main loop game has started
 bool playMelody = false;                  // for melody player function
-unsigned volatile int score = 1;
+unsigned int score = 1;
 
 void setup()
 {
