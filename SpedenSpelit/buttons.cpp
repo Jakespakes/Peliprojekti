@@ -34,8 +34,8 @@ int pressedButton() {         // Tällä voi tsekata ja nollata viimeksi painetu
 }
 
 
-bool buttonWasPressed = false;
-unsigned long lastDebounceTime = 0;
+volatile bool buttonWasPressed = false;
+unsigned volatile long lastDebounceTime = 0;
 const unsigned long debounceDelay = 1000;   
 
 ISR(PCINT2_vect) {        

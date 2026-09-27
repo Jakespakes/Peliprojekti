@@ -32,6 +32,7 @@ void loop()
     startTheGame();
     gameStart = false;
     gameIsOn = true;
+    score = 1;
   }
   
   melody();  // Soitetaan musiikkia niin kauan kun playMelody = true

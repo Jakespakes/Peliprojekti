@@ -12,6 +12,7 @@ unsigned int index = 0;
 unsigned int value = 62499;
 extern volatile bool newTimerInterrupt;
 volatile bool newNumberReady = false;
+extern unsigned int score;
 
 // Introduce TIMER1_COMPA_vect Interrupt SeRvice (ISR) function for timer.
 
@@ -35,9 +36,9 @@ ISR(TIMER1_COMPA_vect)
     */
 
     if (index == 10) {
+      TCNT1 = 0;
       value *= 0.9;
       OCR1A = value;
-      TCNT1 = 0;
       index = 0;
     }
     newTimerInterrupt = false;
@@ -111,8 +112,8 @@ void startTheGame(void) {
 
 // Helppo tapa aloittaa peli uudestaan kun se hävitään.
 void resetGame() {
-  asm volatile ("jmp 0"); // Tämä pätkä hyppää suoraan koodin alkuun. Vähän niinkuin C:n return 0;
-  //gameStart = false;
+  //asm volatile ("jmp 0"); // Tämä pätkä hyppää suoraan koodin alkuun. Vähän niinkuin C:n return 0;
+  gameStart = false;
   PCMSK2 |= (1 << 6); // Laitetaan pinni 6 käyttöön
 }
 
