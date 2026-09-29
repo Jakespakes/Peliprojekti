@@ -1,2 +1,2 @@
 # Peliprojekti
-Peliprojekti 2026 keväälle
+Peliprojekti 2026 syksylle
