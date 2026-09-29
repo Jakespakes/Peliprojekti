@@ -62,8 +62,8 @@ void writeByte(uint8_t bits,bool last)
 
 void writeHighAndLowNumber(uint8_t tens,uint8_t ones) //Laita ensimmäisenä jonona kympit ja sitten ykköset.
 {
-  writeByte(numberBits[tens], false); 
-  writeByte(numberBits[ones], true); 
+  writeByte(numberBits[ones], false); 
+  writeByte(numberBits[tens], true); 
 }
 
 void showResult(byte number) //Jaa numero kymmenellä ja ota siitä jakojäännös niin saadaan kympit ja ykköset näytölle.

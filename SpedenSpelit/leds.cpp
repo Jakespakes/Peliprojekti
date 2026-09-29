@@ -10,11 +10,12 @@ void initializeLeds() {
 
 void setLed(byte ledNumber) { // Sammuttaa ledit ja sytyttää käsketyn ledin.
   clearAllLeds();
+  delay(50);
   int pin = A0 + ledNumber + 2;
   digitalWrite(pin, HIGH);
 }
 
-static void setLed2(byte ledNumber) { // Sama kuin setLed, muttei sammuta kaikkia ledejä alussa
+void setLed2(byte ledNumber) { // Sama kuin setLed, muttei sammuta kaikkia ledejä alussa
   int pin = A0 + ledNumber + 2;
   digitalWrite(pin, HIGH);
 }
