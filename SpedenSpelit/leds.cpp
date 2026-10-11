@@ -1,6 +1,8 @@
 #include "Arduino.h"
 #include "leds.h"
 
+extern volatile bool gameIsOn;
+
 void initializeLeds() {
   for (int i = 2;i<=5;i++) { // Laitetaan pinnit A2-A5 output tilaan että saadaan virta ledeihin
     pinMode(A0 + i, OUTPUT);
@@ -44,7 +46,7 @@ void show1()  {               // show1 eli tämä esittää binäärit 1-15 lede
         setLed2(j);
       }
     }
-    delay(1000);
+    delay(250);
   }
   clearAllLeds();
 }
@@ -63,4 +65,5 @@ void show2(int rounds)  { // show2 eli nopeutuva 1-2-3-4...1-2-3.4.. Tämän aja
       show2Delay = 80;
     }
   }
+  return gameIsOn = true;
 }

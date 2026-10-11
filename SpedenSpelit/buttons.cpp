@@ -36,7 +36,7 @@ int pressedButton() {         // Tällä voi tsekata ja nollata viimeksi painetu
 
 volatile bool buttonWasPressed = false;
 unsigned volatile long lastDebounceTime = 0;
-const unsigned long debounceDelay = 100;
+const unsigned long debounceDelay = 500;
 
 ISR(PCINT2_vect) {        
   uint8_t pressed = ~PIND; // Otetaan D portin pinnien tilat talteen

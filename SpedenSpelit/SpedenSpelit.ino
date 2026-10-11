@@ -33,6 +33,7 @@ void loop()
     gameStart = false;
     gameIsOn = true;
     score = 0;
+    show1();
   }
 
   // Käytetään while looppia, niin ei tarvitse laittaa montaa muuttujaan kaikkiin if lausekkeisiin
@@ -52,9 +53,9 @@ void loop()
         gameIsOn = false;
         buttonWasPressed = false;
         resetGame();
+        show2(3);
       }
       showResult(score);
-      Serial.println(score);
     }
 
     /*
